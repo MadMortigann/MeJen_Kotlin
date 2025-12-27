@@ -57,6 +57,7 @@ android {
 }
 
 dependencies {
+    implementation(files("libs/ffmpeg-kit-full-gpl-6.0-2.LTS.aar"))
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)

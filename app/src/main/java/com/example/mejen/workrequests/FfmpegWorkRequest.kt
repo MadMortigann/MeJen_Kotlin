@@ -7,15 +7,13 @@ import androidx.work.WorkerParameters
 import com.arthenica.ffmpegkit.FFmpegKit
 import java.io.File
 
-private const val LOG_TAG = "MainActivity"
+private const val LOG_TAG = "FfmpegWorkRequest"
 
 class FfmpegWorkRequest(
     appContext: Context,
-    workerParams: WorkerParameters
+    workerParams: WorkerParameters,
 ) : Worker(appContext, workerParams) {
-
     override fun doWork(): Result {
-
         val context = applicationContext
         try {
             val mejenDir = context.filesDir.absolutePath + "/temp_videos/"
@@ -28,34 +26,34 @@ class FfmpegWorkRequest(
                 }
             }
             val outName = context.filesDir.absolutePath + "/temp_videos/my_mov12345.mp4"
-            val cmd = String.format(
-                "-y -i %s -r 24.0 -preset superfast -c:v h264 -vf scale=trunc(iw/2)*2:trunc(ih/2)*2 -f mp4 %s",
-                context.filesDir.absolutePath + "/temp_videos/my_mov123.mp4",
-                outName
-            )
+            val cmd =
+                String.format(
+                    "-y -i %s -r 24.0 -preset superfast -c:v h264 -vf scale=trunc(iw/2)*2:trunc(ih/2)*2 -f mp4 %s",
+                    context.filesDir.absolutePath + "/temp_videos/my_mov123.mp4",
+                    outName,
+                )
             Log.d(LOG_TAG, String.format("Saving file to %s", outName))
             FFmpegKit.executeAsync(cmd) { session ->
                 val state = session.getState()
                 val returnCode = session.getReturnCode()
-                //Success
+                // Success
                 Log.d(
                     LOG_TAG,
                     String.format(
                         "FFmpeg process exited with state %s and rc %s.%s",
                         state,
                         returnCode,
-                        session.getFailStackTrace()
-                    )
+                        session.getFailStackTrace(),
+                    ),
                 )
             }
         } catch (throwable: Throwable) {
             Log.d(
                 LOG_TAG,
-                "Error Sending Notification" + throwable.message
+                "Error Sending Notification" + throwable.message,
             )
             return Result.failure()
         }
         return Result.success()
     }
-
 }

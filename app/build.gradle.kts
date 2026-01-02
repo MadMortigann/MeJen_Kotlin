@@ -58,7 +58,9 @@ android {
 
 dependencies {
     implementation(files("libs/ffmpeg-kit-full-gpl-6.0-2.LTS.aar"))
+    implementation(files("libs/smart-exception-java-0.2.1.jar"))
     implementation(libs.core.ktx)
+    implementation(libs.smart.exception.java9)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
@@ -66,6 +68,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

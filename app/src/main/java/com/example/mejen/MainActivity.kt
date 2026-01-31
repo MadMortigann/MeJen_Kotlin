@@ -10,10 +10,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.arthenica.ffmpegkit.FFmpegSession
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.example.mejen.ui.theme.MeJenTheme
+import com.example.mejen.workrequests.FfmpegWorkRequest
 
 class MainActivity : ComponentActivity() {
+    private fun testFfmpeg() {
+        val inputData =
+            Data
+                .Builder()
+                .putString("Suck it Trebek", "https://example.com/image.jpg")
+                .build()
+
+        val uploadWorkRequest =
+            OneTimeWorkRequest
+                .Builder(FfmpegWorkRequest::class)
+                .setInputData(inputData)
+                .build()
+
+        WorkManager.getInstance(this).enqueue(uploadWorkRequest)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -27,6 +46,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        testFfmpeg()
     }
 }
 
